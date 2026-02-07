@@ -1,0 +1,22 @@
+{
+  "name": "project-management",
+  "version": "1.0.0",
+  "description": "managing project having authorized access",
+  "license": "ISC",
+  "author": "Raushan Kumar",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "prettier": "3.8.1"
+  }
+}
