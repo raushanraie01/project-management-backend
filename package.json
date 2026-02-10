@@ -11,9 +11,13 @@
     "start": "node src/server.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "mongoose": "^9.1.6"
+    "jsonwebtoken": "^9.0.3",
+    "mailgen": "^2.0.32",
+    "mongoose": "^9.1.6",
+    "nodemailer": "^8.0.1"
   },
   "devDependencies": {
     "dotenv": "^17.2.4",

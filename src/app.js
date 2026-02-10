@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 const app = express();
-
+console.log("hello");
 // basic configurations
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
@@ -19,7 +19,13 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
+import healthcheckRouter from "./routes/healthcheck.routes.js";
+import authRouter from "./routes/auth.routes.js";
+
+app.use("/api/v1/healthcheck", healthcheckRouter);
+app.use("/api/v1/auth", authRouter);
+
+app.get("/check", (req, res) => {
   res.send("Hello World");
 });
 
