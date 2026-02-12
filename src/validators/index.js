@@ -14,7 +14,7 @@ const userRegisterValidation = () => {
       .notEmpty()
       .withMessage("Username is required")
       .isLowercase()
-      .withMessage("must be in lowercase")
+      .withMessage("Username must be in lowercase")
       .isLength({ min: 5 })
       .withMessage("Usernamemust must have atleast 5 character"),
     body("password")
@@ -26,4 +26,19 @@ const userRegisterValidation = () => {
   ];
 };
 
-export { userRegisterValidation };
+const userLoginValidation = () => {
+  return [
+    body("email")
+      .trim()
+      .optional()
+      .isEmail()
+      .withMessage("Email must be valid"),
+    body("password")
+      .trim()
+      .notEmpty()
+      .withMessage("password is required")
+      .isLength({ min: 5 })
+      .withMessage("password must be atleast 5 character long"),
+  ];
+};
+export { userRegisterValidation, userLoginValidation };
