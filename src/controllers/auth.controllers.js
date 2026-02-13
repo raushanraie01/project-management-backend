@@ -57,11 +57,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
   sendMail({
     email: user?.email,
+    subject: "Please verify your email ",
     mailgenContent: emailVerificationMailgenContent(
       user.username,
       verificationUrl,
     ),
-    subject: "Please verify your email ",
   });
 
   const createdUser = await User.findById(user._id).select(
@@ -262,6 +262,47 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
+const forgetPasswordRequest = asyncHandler(async (req, res) => {
+  let email = req.body;
+
+  if (!email) throw new ApiError(400, "email is required");
+
+  //check in db
+  const user = await User.findOne({ email });
+  if (!user) throw new ApiError(400, "user does not exists", []);
+
+  //generateRefreshToken
+  const { accessToken, refreshToken: NewRefreshToken } =
+    await generateAccessAndRefreshToken(user._id);
+
+  const { unHashedToken, hashToken, tokenExpiry } = user.generateRandomToken(
+    user._id,
+  );
+
+  user.forgotPasswordToken = hashToken;
+  user.forgotPasswordExpiry = tokenExpiry;
+  await user.save({ validateBeforeSave: false });
+
+  //send mail to change password
+  //sending verification email
+  let passwordResetUrl = `${process.env.FORGOT_PASSWORD_REDIRECT_URL}/${unHashedToken}`;
+
+  sendMail({
+    email: user?.email,
+    subject: "Please Update your password ",
+    mailgenContent: forgotPasswordMailgenContent(
+      user.username,
+      passwordResetUrl,
+    ),
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, {}, "Reset password mail has sentnon your email"),
+    );
+});
+
 export {
   registerUser,
   loginUser,
@@ -269,4 +310,5 @@ export {
   currentUser,
   verifyEmail,
   resendEmailVerification,
+  refreshAccessToken,
 };

@@ -7,6 +7,7 @@ import {
   currentUser,
   verifyEmail,
   resendEmailVerification,
+  refreshAccessToken,
 } from "../controllers/auth.controllers.js";
 import { validate } from "../middlewares/validator.middleware.js";
 import {
