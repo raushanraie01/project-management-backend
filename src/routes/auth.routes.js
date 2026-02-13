@@ -6,6 +6,7 @@ import {
   userRegisterValidation,
   userLoginValidation,
 } from "../validators/index.js";
+import { verifyJwt } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -14,4 +15,6 @@ router
   .post(userRegisterValidation(), validate, registerUser);
 
 router.route("/login").post(userLoginValidation(), validate, loginUser);
+
+router.get("/hello", verifyJwt, (req, res) => res.send("hello user"));
 export default router;
